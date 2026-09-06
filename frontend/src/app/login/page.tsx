@@ -51,10 +51,10 @@ export default function LoginPage() {
         <p className="text-xs text-stone-500">Access your fields, scan records, and AI recommendations securely</p>
       </div>
 
-      <div className="p-3.5 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200/80 text-xs text-emerald-900 space-y-2 shadow-xs">
+      <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-300 text-xs text-emerald-950 space-y-2 shadow-xs">
         <div className="flex items-center justify-between font-semibold">
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="inline-block w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
             Quick Test Accounts (Bcrypt Secured):
           </span>
         </div>
@@ -65,11 +65,11 @@ export default function LoginPage() {
               setIdentifier("9123456780");
               setPassword("Farmer@12345");
             }}
-            className="text-left p-2 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-300 transition text-[11px] shadow-2xs"
+            className="text-left p-2.5 rounded-xl bg-white hover:bg-emerald-100/60 border border-emerald-300 transition text-[11px] shadow-2xs"
           >
-            <div className="font-semibold text-emerald-800">🌾 Farmer Demo</div>
-            <div className="text-stone-500 font-mono text-[10px]">9123456780</div>
-            <div className="text-stone-400 font-mono text-[9px]">Pass: Farmer@12345</div>
+            <div className="font-bold text-emerald-900">🌾 Farmer Demo</div>
+            <div className="text-emerald-800 font-mono text-[10px]">9123456780</div>
+            <div className="text-emerald-700 font-mono text-[9px]">Pass: Farmer@12345</div>
           </button>
           <button
             type="button"
@@ -77,11 +77,11 @@ export default function LoginPage() {
               setIdentifier("9876543210");
               setPassword("Admin@12345");
             }}
-            className="text-left p-2 rounded-xl bg-white hover:bg-amber-50 border border-amber-300 transition text-[11px] shadow-2xs"
+            className="text-left p-2.5 rounded-xl bg-white hover:bg-emerald-100/60 border border-emerald-300 transition text-[11px] shadow-2xs"
           >
-            <div className="font-semibold text-amber-900">🛡️ Admin Officer</div>
-            <div className="text-stone-500 font-mono text-[10px]">9876543210</div>
-            <div className="text-stone-400 font-mono text-[9px]">Pass: Admin@12345</div>
+            <div className="font-bold text-emerald-900">🛡️ Admin Officer</div>
+            <div className="text-emerald-800 font-mono text-[10px]">9876543210</div>
+            <div className="text-emerald-700 font-mono text-[9px]">Pass: Admin@12345</div>
           </button>
         </div>
       </div>

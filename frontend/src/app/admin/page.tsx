@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { API_BASE_URL } from "@/lib/api";
@@ -44,17 +44,17 @@ export default function AdminPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Admin Title */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 flex items-center justify-between">
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-emerald-200 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-stone-900 flex items-center gap-2">
-            <ShieldCheck className="w-7 h-7 text-emerald-600" />
+          <h1 className="text-2xl font-bold text-emerald-950 flex items-center gap-2">
+            <ShieldCheck className="w-7 h-7 text-emerald-700" />
             <span>Agricultural Admin & Quality Assurance</span>
           </h1>
-          <p className="text-sm text-stone-600 mt-1">
+          <p className="text-sm text-emerald-800 mt-1">
             System overview, model telemetry, dataset verification pipeline, and expert review queue.
           </p>
         </div>
-        <span className="bg-amber-100 text-amber-900 text-xs font-bold px-3 py-1.5 rounded-xl border border-amber-300">
+        <span className="bg-emerald-800 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl shadow-xs">
           Admin Portal
         </span>
       </div>
@@ -62,29 +62,29 @@ export default function AdminPage() {
       {/* Metrics Cards */}
       {stats && (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          <div className="bg-white p-4 rounded-xl border border-stone-200">
-            <span className="text-[10px] text-stone-500 uppercase font-semibold">Farmers</span>
-            <p className="text-2xl font-bold text-stone-900 mt-1">{stats.total_farmers}</p>
+          <div className="bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+            <span className="text-[10px] text-emerald-800 uppercase font-semibold">Farmers</span>
+            <p className="text-2xl font-bold text-emerald-950 mt-1">{stats.total_farmers}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-stone-200">
-            <span className="text-[10px] text-stone-500 uppercase font-semibold">Total Scans</span>
-            <p className="text-2xl font-bold text-stone-900 mt-1">{stats.total_analyses}</p>
+          <div className="bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+            <span className="text-[10px] text-emerald-800 uppercase font-semibold">Total Scans</span>
+            <p className="text-2xl font-bold text-emerald-950 mt-1">{stats.total_analyses}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-stone-200">
-            <span className="text-[10px] text-stone-500 uppercase font-semibold">Healthy</span>
-            <p className="text-2xl font-bold text-emerald-600 mt-1">{stats.healthy_cases}</p>
+          <div className="bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+            <span className="text-[10px] text-emerald-800 uppercase font-semibold">Healthy</span>
+            <p className="text-2xl font-bold text-emerald-700 mt-1">{stats.healthy_cases}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-stone-200">
-            <span className="text-[10px] text-stone-500 uppercase font-semibold">Diseased</span>
-            <p className="text-2xl font-bold text-amber-600 mt-1">{stats.disease_cases}</p>
+          <div className="bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+            <span className="text-[10px] text-emerald-800 uppercase font-semibold">Diseased</span>
+            <p className="text-2xl font-bold text-emerald-800 mt-1">{stats.disease_cases}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-stone-200">
-            <span className="text-[10px] text-stone-500 uppercase font-semibold">Review Queue</span>
-            <p className="text-2xl font-bold text-rose-600 mt-1">{stats.pending_reviews}</p>
+          <div className="bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+            <span className="text-[10px] text-emerald-800 uppercase font-semibold">Review Queue</span>
+            <p className="text-2xl font-bold text-emerald-900 mt-1">{stats.pending_reviews}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-stone-200">
-            <span className="text-[10px] text-stone-500 uppercase font-semibold">Feedback</span>
-            <p className="text-2xl font-bold text-indigo-600 mt-1">{stats.total_feedback}</p>
+          <div className="bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+            <span className="text-[10px] text-emerald-800 uppercase font-semibold">Feedback</span>
+            <p className="text-2xl font-bold text-emerald-950 mt-1">{stats.total_feedback}</p>
           </div>
         </div>
       )}

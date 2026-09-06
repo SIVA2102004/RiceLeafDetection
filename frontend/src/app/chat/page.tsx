@@ -547,8 +547,8 @@ function ChatContent() {
             className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             {msg.role === "assistant" && (
-              <div className="w-8 h-8 rounded-full bg-emerald-600 text-amber-300 flex items-center justify-center flex-shrink-0 mt-1 shadow-sm">
-                <Bot className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center flex-shrink-0 mt-1 shadow-sm border border-emerald-600">
+                <Bot className="w-4 h-4 text-white" />
               </div>
             )}
 
@@ -556,7 +556,7 @@ function ChatContent() {
               className={`max-w-[85%] sm:max-w-[75%] rounded-2xl p-4 shadow-sm text-xs sm:text-sm leading-relaxed ${
                 msg.role === "user"
                   ? "bg-emerald-700 text-white rounded-br-none"
-                  : "bg-white text-stone-800 border border-stone-200 rounded-bl-none"
+                  : "bg-white text-emerald-950 border border-emerald-200 rounded-bl-none"
               }`}
             >
               <div className="whitespace-pre-line">{msg.message}</div>
@@ -566,16 +566,16 @@ function ChatContent() {
                   <span>{ui.knowledgeService}</span>
                   <button
                     onClick={() => speakText(msg.id, msg.message)}
-                    className="flex items-center gap-1 text-emerald-700 hover:text-emerald-800 font-semibold p-1 rounded"
+                    className="flex items-center gap-1 text-emerald-700 hover:text-emerald-900 font-semibold p-1 rounded"
                   >
                     {speakingId === msg.id ? (
                       <>
-                        <VolumeX className="w-3.5 h-3.5 text-rose-600" />
-                        <span className="text-rose-600">{ui.stopVoice}</span>
+                        <VolumeX className="w-3.5 h-3.5 text-emerald-800" />
+                        <span className="text-emerald-800">{ui.stopVoice}</span>
                       </>
                     ) : (
                       <>
-                        <Volume2 className="w-3.5 h-3.5" />
+                        <Volume2 className="w-3.5 h-3.5 text-emerald-700" />
                         <span>{t.readAloud}</span>
                       </>
                     )}
@@ -585,14 +585,14 @@ function ChatContent() {
             </div>
 
             {msg.role === "user" && (
-              <div className="w-8 h-8 rounded-full bg-stone-300 text-stone-700 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center flex-shrink-0 mt-1 border border-emerald-300">
                 <User className="w-4 h-4" />
               </div>
             )}
           </div>
         ))}
         {loading && (
-          <div className="flex items-center gap-2 text-stone-500 text-xs pl-11">
+          <div className="flex items-center gap-2 text-emerald-700 text-xs pl-11">
             <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-600" />
             <span>{ui.loading}</span>
           </div>
@@ -601,14 +601,14 @@ function ChatContent() {
       </div>
 
       {/* Input controls */}
-      <div className="p-3 bg-white border-t border-stone-200 flex items-center gap-2">
+      <div className="p-3 bg-white border-t border-emerald-200 flex items-center gap-2">
         <button
           onClick={toggleListening}
           title={isListening ? "Listening..." : "Speak Question"}
           className={`p-3 rounded-xl border transition flex-shrink-0 ${
             isListening
-              ? "bg-rose-600 text-white border-rose-600 animate-pulse"
-              : "bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200"
+              ? "bg-emerald-800 text-white border-emerald-800 animate-pulse"
+              : "bg-white text-emerald-800 border-emerald-300 hover:bg-emerald-50"
           }`}
         >
           <Mic className="w-5 h-5" />
@@ -628,13 +628,13 @@ function ChatContent() {
               ? "நெல் நோய்கள், அறிகுறிகள் அல்லது உரங்கள் பற்றி கேளுங்கள்..."
               : "Ask about rice blast, brown spots, fertilizers, watering..."
           }
-          className="flex-1 bg-stone-100 border border-stone-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-stone-800 focus:outline-none focus:border-emerald-600"
+          className="flex-1 bg-white border border-emerald-300 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-emerald-950 focus:outline-none focus:border-emerald-600 shadow-2xs"
         />
 
         <button
           disabled={!input.trim() || loading}
           onClick={() => handleSend()}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white p-3 rounded-xl transition disabled:opacity-50 flex-shrink-0 shadow-sm"
+          className="bg-emerald-700 hover:bg-emerald-800 text-white p-3 rounded-xl transition disabled:opacity-50 flex-shrink-0 shadow-sm"
         >
           <Send className="w-4 h-4" />
         </button>

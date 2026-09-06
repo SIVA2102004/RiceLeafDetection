@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { API_BASE_URL } from "@/lib/api";
@@ -49,27 +49,27 @@ export default function HistoryPage() {
         </div>
 
         {/* Filter buttons */}
-        <div className="flex items-center gap-1.5 bg-stone-100 p-1 rounded-xl border border-stone-200 text-xs">
+        <div className="flex items-center gap-1.5 bg-emerald-50 p-1 rounded-xl border border-emerald-200 text-xs">
           <button
             onClick={() => setFilter("all")}
-            className={`px-3 py-1.5 rounded-lg font-medium transition ${
-              filter === "all" ? "bg-white text-emerald-900 shadow-sm" : "text-stone-600"
+            className={`px-3 py-1.5 rounded-lg font-bold transition ${
+              filter === "all" ? "bg-emerald-800 text-white shadow-sm" : "text-emerald-850 hover:bg-emerald-100"
             }`}
           >
             All
           </button>
           <button
             onClick={() => setFilter("diseased")}
-            className={`px-3 py-1.5 rounded-lg font-medium transition ${
-              filter === "diseased" ? "bg-white text-amber-700 shadow-sm" : "text-stone-600"
+            className={`px-3 py-1.5 rounded-lg font-bold transition ${
+              filter === "diseased" ? "bg-emerald-800 text-white shadow-sm" : "text-emerald-850 hover:bg-emerald-100"
             }`}
           >
             Diseased
           </button>
           <button
             onClick={() => setFilter("healthy")}
-            className={`px-3 py-1.5 rounded-lg font-medium transition ${
-              filter === "healthy" ? "bg-white text-emerald-700 shadow-sm" : "text-stone-600"
+            className={`px-3 py-1.5 rounded-lg font-bold transition ${
+              filter === "healthy" ? "bg-emerald-800 text-white shadow-sm" : "text-emerald-850 hover:bg-emerald-100"
             }`}
           >
             Healthy
