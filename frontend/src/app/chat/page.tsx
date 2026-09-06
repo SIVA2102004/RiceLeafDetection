@@ -106,6 +106,98 @@ function ChatContent() {
     }
   }, [analysisId, language]);
 
+  // Comprehensive response generator in active regional language
+  const getLocalizedResponse = (query: string, lang: string): string | null => {
+    const lowerQ = query.toLowerCase();
+    const diseaseCatalog = t.diseases || {};
+
+    // 1. Check disease matching (both English terms and Regional names)
+    for (const [engName, dInfo] of Object.entries(diseaseCatalog)) {
+      const matchEng = lowerQ.includes(engName.toLowerCase());
+      const matchLocal = dInfo.name && lowerQ.includes(dInfo.name.toLowerCase());
+      
+      // Alias matching
+      const isBlast = (lowerQ.includes("blast") || lowerQ.includes("అగ్గి") || lowerQ.includes("झुलसा")) && engName.includes("Blast");
+      const isBlight = (lowerQ.includes("blight") || lowerQ.includes("ఎండు") || lowerQ.includes("ब्लाइट")) && engName.includes("Blight");
+      const isSpot = (lowerQ.includes("brown") || lowerQ.includes("spot") || lowerQ.includes("మచ్చ") || lowerQ.includes("धब्बा")) && engName.includes("Spot");
+      const isHealthy = (lowerQ.includes("healthy") || lowerQ.includes("ఆరోగ్య") || lowerQ.includes("स्वस्थ")) && engName === "Healthy";
+      const isTungro = lowerQ.includes("tungro") && engName === "Tungro";
+      const isHispa = (lowerQ.includes("hispa") || lowerQ.includes("కీటకం")) && engName === "Rice Hispa";
+
+      if (matchEng || matchLocal || isBlast || isBlight || isSpot || isHealthy || isTungro || isHispa) {
+        const labels: Record<string, { symptoms: string; precautions: string; management: string; disclaimer: string }> = {
+          te: {
+            symptoms: "గమనించిన ముఖ్య లక్షణాలు",
+            precautions: "రైతు తీసుకోవాల్సిన జాగ్రత్తలు",
+            management: "పొలంలో పాటించాల్సిన యాజమాన్య పద్ధతులు",
+            disclaimer: "⚠️ సలహా: తీవ్రమైన పరిస్థితుల్లో మీ సమీప వ్యవసాయ విస్తరణ అధికారిని (AEO) సంప్రదించండి."
+          },
+          hi: {
+            symptoms: "मुख्य लक्षण",
+            precautions: "अनुशंसित सावधानियां",
+            management: "खेत प्रबंधन और रोकथाम के उपाय",
+            disclaimer: "⚠️ सलाह: गंभीर स्थिति में नजदीकी कृषि अधिकारी या कृषि विज्ञान केंद्र (KVK) से सलाह लें।"
+          },
+          ta: {
+            symptoms: "முக்கிய அறிகுறிகள்",
+            precautions: "பரிந்துரைக்கப்பட்ட முன்னெச்சரிக்கைகள்",
+            management: "பயிர் மேலாண்மை வழிகாட்டுதல்",
+            disclaimer: "⚠️ ஆலோசனை: தீவிர பாதிப்புகளுக்கு வேளாண்மை அலுவலரை அணுகவும்."
+          },
+          kn: {
+            symptoms: "ಮುಖ್ಯ ರೋಗ ಲಕ್ಷಣಗಳು",
+            precautions: "ರೈತರು ತೆಗೆದುಕೊಳ್ಳಬೇಕಾದ ಮುನ್ನೆಚ್ಚರಿಕೆಗಳು",
+            management: "ಕ್ಷೇತ್ರ ನಿರ್ವಹಣಾ ಕ್ರಮಗಳು",
+            disclaimer: "⚠️ ಸಲಹೆ: ಹೆಚ್ಚಿನ ಹಾನಿಯಾಗಿದ್ದಲ್ಲಿ ಸ್ಥಳೀಯ ಕೃಷಿ ಅಧಿಕಾರಿಯನ್ನು ಸಂಪರ್ಕಿಸಿ."
+          },
+          mr: {
+            symptoms: "महत्त्वाची लक्षणे",
+            precautions: "काळजीचे उपाय",
+            management: "शेती व्यवस्थापन आणि प्रतिबंधात्मक पद्धती",
+            disclaimer: "⚠️ सल्ला: गंभीर समस्येसाठी स्थानिक कृषी अधिकाऱ्यांशी संपर्क साधा."
+          },
+          gu: {
+            symptoms: "મુખ્ય લક્ષણો",
+            precautions: "સાવચેતીનાં પગલાં",
+            management: "ખેત વ્યવસ્થાપન",
+            disclaimer: "⚠️ સલાહ: વધુ નુકસાન માટે સ્થાનિક કૃષિ અધિકારીની મુલાકાત લો."
+          },
+          en: {
+            symptoms: "Key Observed Symptoms",
+            precautions: "Recommended Precautions",
+            management: "Field Management Guidelines",
+            disclaimer: "⚠️ Note: For severe symptoms, consult your local agricultural officer."
+          }
+        };
+
+        const lbl = labels[lang] || labels.en;
+        return `🌾 **${dInfo.name}**\n\n${dInfo.description}\n\n**${lbl.symptoms}:**\n${dInfo.symptoms.map((s) => `• ${s}`).join("\n")}\n\n**${lbl.precautions}:**\n${dInfo.precautions.map((p) => `• ${p}`).join("\n")}\n\n**${lbl.management}:**\n${dInfo.management.map((m) => `• ${m}`).join("\n")}\n\n${lbl.disclaimer}`;
+      }
+    }
+
+    // 2. Water / Irrigation queries
+    if (lowerQ.includes("water") || lowerQ.includes("irrigation") || lowerQ.includes("నీరు") || lowerQ.includes("पानी") || lowerQ.includes("પાણી")) {
+      if (lang === "te") {
+        return "🌾 **వరి పంట నీటి యాజమాన్యం:**\n\n• **పిలక దశ**: పిలకలు ఎక్కువగా రావడానికి 2 నుండి 3 సెం.మీ మేర పలుచటి నీటిని ఉంచాలి.\n• **చిరుపొట్ట మరియు ఈనె దశ**: ఈ దశలో నీటి ఎద్దడి ఉండకూడదు, 3 నుండి 5 సెం.మీ నీరు నిల్వ ఉంచాలి.\n• **తెగుళ్ల నివారణ**: బాక్టీరియా ఎండు లేదా పాముపొడ తెగులు ఆశిస్తే పొలంలోని నీటిని వెంటనే బయటకు తీసి ఆరబెట్టాలి.\n• **కోతకు ముందు**: పంట కోతకు 10-12 రోజుల ముందు పొలంలోని నీటిని పూర్తిగా తీసివేయాలి.";
+      }
+      if (lang === "hi") {
+        return "🌾 **धान की फसल में जल प्रबंधन:**\n\n• **कल्ले निकलने की अवस्था**: अधिक कल्ले बनने के लिए खेत में 2-3 सेमी उथला पानी रखें।\n• **फूल आने की अवस्था**: इस समय खेत में 3-5 सेमी पानी होना आवश्यक है, सूखा न पड़ने दें।\n• **रोग नियंत्रण**: झुलसा या शीथ ब्लाइट दिखने पर खेत का पानी तुरंत निकाल दें और हवा लगने दें।\n• **कटाई पूर्व**: कटाई से 10-12 दिन पहले खेत का पानी पूरी तरह निकाल दें।";
+      }
+    }
+
+    // 3. Fertilizer queries
+    if (lowerQ.includes("fertilizer") || lowerQ.includes("urea") || lowerQ.includes("nitrogen") || lowerQ.includes("ఎరువులు") || lowerQ.includes("యూరియా") || lowerQ.includes("खाद")) {
+      if (lang === "te") {
+        return "🌾 **సమతుల్య ఎరువుల యాజమాన్యం:**\n\n• **యూరియా వాడకం**: యూరియా (నత్రజని) ఎక్కువగా వేస్తే ఆకులు మెత్తబడి అగ్గి తెగులు, ఆకు ఎండు తెగులు సులభంగా ఆశిస్తాయి.\n• **విడతల వారీగా**: యూరియాను ఒకేసారి వేయకుండా దుక్కిలో, పిలక దశలో, చిరుపొట్ట దశలో 3 సమాన విడతలుగా వేయాలి.\n• **పొటాష్ ప్రాముఖ్యత**: పొటాష్ ఎరువు పంటకు రోగ నిరోధక శక్తిని పెంచుతుంది.\n• **భూసార పరీక్ష**: ఎల్లప్పుడూ భూసార పరీక్ష ఆధారంగా సిఫార్సు చేసిన మోతాదులో మాత్రమే ఎరువులు వాడాలి.";
+      }
+      if (lang === "hi") {
+        return "🌾 **धान में उर्वरक प्रबंधन:**\n\n• **संतुलित यूरिया**: अत्यधिक नाइट्रोजन (यूरिया) से पत्तियां अत्यधिक कोमल हो जाती हैं और ब्लास्ट व झुलसा रोग तेजी से फैलता है।\n• **तीन किस्तों में प्रयोग**: यूरिया की पूरी मात्रा एक बार में न देकर रोपाई, कल्ले फूटने और बाली निकलने के समय 3 भागों में दें।\n• **पोटाश का महत्व**: पोटाश पौधों की कोशिकाओं को मजबूत कर रोगों से लड़ने की क्षमता देता है।\n• **मिट्टी परीक्षण**: स्वाइल हेल्थ कार्ड की सिफारिशों के अनुसार ही खाद का प्रयोग करें।";
+      }
+    }
+
+    return null;
+  };
+
   const handleSend = async (textToSend?: string) => {
     const query = textToSend || input;
     if (!query.trim() || loading) return;
@@ -123,28 +215,25 @@ function ChatContent() {
     setLoading(true);
 
     try {
-      // Direct prompt answering via localized catalog if regional language
-      let localAnswer: string | null = null;
-      const lowerQ = query.toLowerCase();
+      // 1. If user asks in any language (English, Telugu, Hindi etc.), check for localized response in SELECTED language
+      const localizedAnswer = getLocalizedResponse(query, language);
 
-      // Check disease match in active local language catalog
-      for (const [key, dInfo] of Object.entries(t.diseases || {})) {
-        if (
-          lowerQ.includes(dInfo.name.toLowerCase()) || 
-          lowerQ.includes(key.toLowerCase()) ||
-          lowerQ.includes("లక్షణాలు") ||
-          lowerQ.includes("నివారణ") ||
-          lowerQ.includes("మందు") ||
-          lowerQ.includes("లక్షణ") ||
-          lowerQ.includes("ఎరువులు")
-        ) {
-          if (lowerQ.includes(dInfo.name.toLowerCase()) || lowerQ.includes(key.toLowerCase())) {
-            localAnswer = `🌾 **${dInfo.name}**\n\n${dInfo.description}\n\n**లక్షణాలు (Symptoms):**\n${dInfo.symptoms.map((s) => `• ${s}`).join("\n")}\n\n**తీసుకోవాల్సిన జాగ్రత్తలు (Precautions):**\n${dInfo.precautions.map((p) => `• ${p}`).join("\n")}\n\n**యాజమాన్య పద్ధతులు (Management):**\n${dInfo.management.map((m) => `• ${m}`).join("\n")}\n\n⚠️ *సలహా: తీవ్రమైన పరిస్థితుల్లో మీ సమీప వ్యవసాయ విస్తరణ అధికారిని (AEO) సంప్రదించండి.*`;
-            break;
-          }
-        }
+      if (localizedAnswer) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            role: "assistant",
+            message: localizedAnswer,
+            language: language,
+            created_at: new Date().toISOString(),
+          },
+        ]);
+        setLoading(false);
+        return;
       }
 
+      // 2. Otherwise query backend
       const res = await fetch(`${API_BASE_URL}/chat/message`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -157,22 +246,7 @@ function ChatContent() {
 
       if (res.ok) {
         const reply: ChatMessage = await res.json();
-        // If query was in regional language and matched local knowledge, enhance response
-        if (language !== "en" && localAnswer) {
-          reply.message = localAnswer;
-        }
         setMessages((prev) => [...prev, reply]);
-      } else if (localAnswer) {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: Date.now(),
-            role: "assistant",
-            message: localAnswer!,
-            language: language,
-            created_at: new Date().toISOString(),
-          },
-        ]);
       }
     } catch (e) {
       setMessages((prev) => [
@@ -194,10 +268,11 @@ function ChatContent() {
     }
   };
 
-  // Web Speech API - Speech to Text
+  // Web Speech API - Speech to Text with robust permissions and error logging
   const toggleListening = () => {
-    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
-      alert("Speech recognition is not supported in this browser. Please use Chrome or Edge.");
+    const hasSpeech = "webkitSpeechRecognition" in window || "SpeechRecognition" in window;
+    if (!hasSpeech) {
+      alert("Voice input is supported in Google Chrome, Microsoft Edge, and modern mobile browsers. Please ensure you are using Chrome or Edge.");
       return;
     }
 
@@ -206,34 +281,57 @@ function ChatContent() {
       return;
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = false;
+    try {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
 
-    // Map language code to speech locale
-    const langMap: Record<string, string> = {
-      en: "en-IN",
-      hi: "hi-IN",
-      te: "te-IN",
-      ta: "ta-IN",
-      kn: "kn-IN",
-      mr: "mr-IN",
-      gu: "gu-IN",
-    };
-    recognition.lang = langMap[language] || "en-IN";
+      // Locale mapping
+      const langMap: Record<string, string> = {
+        en: "en-IN",
+        hi: "hi-IN",
+        te: "te-IN",
+        ta: "ta-IN",
+        kn: "kn-IN",
+        mr: "mr-IN",
+        gu: "gu-IN",
+      };
+      recognition.lang = langMap[language] || "en-IN";
 
-    recognition.onstart = () => setIsListening(true);
-    recognition.onend = () => setIsListening(false);
-    recognition.onerror = () => setIsListening(false);
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
 
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      setInput(transcript);
-      handleSend(transcript);
-    };
+      recognition.onresult = (event: any) => {
+        setIsListening(false);
+        if (event.results && event.results[0] && event.results[0][0]) {
+          const transcript = event.results[0][0].transcript;
+          if (transcript) {
+            setInput(transcript);
+            handleSend(transcript);
+          }
+        }
+      };
 
-    recognition.start();
+      recognition.onerror = (event: any) => {
+        console.warn("Speech recognition event error:", event.error);
+        setIsListening(false);
+        if (event.error === "not-allowed" || event.error === "permission-denied") {
+          alert("Microphone permission was denied. Please allow microphone access in your browser settings (click the lock/tune icon in the address bar).");
+        }
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.start();
+    } catch (err: any) {
+      console.error("SpeechRecognition start error:", err);
+      setIsListening(false);
+      alert("Unable to start microphone. Please check your browser microphone permissions.");
+    }
   };
 
   // Text to Speech (TTS)
