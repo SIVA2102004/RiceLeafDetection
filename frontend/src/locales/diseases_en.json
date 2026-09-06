@@ -1,0 +1,301 @@
+{
+  "Brown Spot": {
+    "name": "Brown Spot",
+    "description": "A fungal disease frequently associated with nutritional stress, silica deficiency, or poorly drained soil conditions.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Small circular to oval brown spots uniformly scattered across leaf blades",
+      "Mature spots have gray-white centers with distinct yellow halos",
+      "Infected seeds turn discolored and shriveled"
+    ],
+    "risk_factors": [
+      "Nutrient-deficient soils, specifically nitrogen, potassium, and micronutrients like zinc and silica",
+      "Drought-stressed upland conditions alternating with wet soil",
+      "Use of uncertified farm-saved seed without treatment"
+    ],
+    "precautions": [
+      "Conduct soil testing and correct nitrogen and potassium deficiencies",
+      "Maintain adequate soil moisture without severe drought cycles",
+      "Utilize certified treated disease-free seeds"
+    ],
+    "management": [
+      "Cultural: Practice balanced fertilization with organic manure / compost",
+      "Monitoring: Inspect older leaves first as brown spot symptoms initially appear on senescing tissue",
+      "Expert Consultation: Obtain soil health card advice from your nearest Krishi Vigyan Kendra"
+    ]
+  },
+  "Bacterial Leaf Blight": {
+    "name": "Bacterial Leaf Blight",
+    "description": "A serious bacterial vascular disease causing systemic wilting and wavy yellow-white lesions from leaf tips downward.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Water-soaked stripes starting from leaf margins near tips",
+      "Lesions turn yellowish to bleached white with undulating, wavy margins",
+      "Milky bacterial ooze droplets visible on young lesions during early morning humidity"
+    ],
+    "risk_factors": [
+      "Continuous rainstorms and strong winds causing leaf abrasion",
+      "Deep standing floodwater in lowlands",
+      "High nitrogen levels without potassium balance"
+    ],
+    "precautions": [
+      "Drain excess water from the field during severe weather",
+      "Apply balanced fertilizer with split nitrogen and adequate potash",
+      "Avoid clipping seedling leaf tips during transplantation"
+    ],
+    "management": [
+      "Cultural: Plow under crop stubbles immediately after harvest",
+      "Monitoring: Check field perimeter every 3 days during tillering stage",
+      "Expert Consultation: Connect with district agricultural extension officer"
+    ]
+  },
+  "Healthy": {
+    "name": "Healthy",
+    "description": "The rice plant shows vigorous green foliage, uniform leaf color without necrotic lesions, and normal vegetative or reproductive growth.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Uniform vibrant green leaves",
+      "No discoloration, spots, or lesions",
+      "Erect leaf posture and sturdy tillers"
+    ],
+    "risk_factors": [
+      "Imbalanced nitrogen application may predispose to future infections",
+      "Water stagnation or extreme drought"
+    ],
+    "precautions": [
+      "Continue standard recommended irrigation cycles",
+      "Maintain balanced N-P-K nutrient application based on soil testing",
+      "Regularly monitor leaf tips and lower canopies"
+    ],
+    "management": [
+      "Cultural: Keep field bunds clear of wild grasses",
+      "Monitoring: Inspect crop twice weekly during panicle initiation",
+      "Expert Consultation: Consult local Krishi Vigyan Kendra (KVK) for seasonal advisories"
+    ]
+  },
+  "Leaf Blast": {
+    "name": "Leaf Blast",
+    "description": "Foliar blast fungus producing classic spindle or diamond-shaped lesions with grayish centers on leaf blades.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Spindle-shaped elliptical spots with pointed ends, gray center and dark brown border",
+      "Lesions coalesce into large necrotic blighted areas",
+      "Severe infection leads to complete leaf drying and burning appearance"
+    ],
+    "risk_factors": [
+      "Night temperatures around 19-23\u00b0C with relative humidity > 90%",
+      "Prolonged dew deposition on leaf surfaces",
+      "Excessive chemical nitrogen application"
+    ],
+    "precautions": [
+      "Avoid excessive or late nitrogen application",
+      "Maintain optimal plant spacing for ventilation",
+      "Plant resistant varieties recommended by agricultural universities"
+    ],
+    "management": [
+      "Cultural: Destroy infected straw and weeds on field bunds",
+      "Monitoring: Scout seedling nurseries and active tillering stages early in the morning",
+      "Expert Consultation: Consult local extension officer when lesions cover > 5% leaf area"
+    ]
+  },
+  "Leaf Scald": {
+    "name": "Leaf Scald",
+    "description": "Fungal disease characterized by prominent zonate banding starting from leaf tips and margins resembling scalded tissue.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Water-soaked oblong lesions developing from leaf tips and outer margins",
+      "Concentric alternating light tan and dark reddish-brown bands",
+      "Leaf tips dry up and take on a bleached, shredded appearance"
+    ],
+    "risk_factors": [
+      "High humidity, frequent rain showers, and warm temperatures (25-30\u00b0C)",
+      "Dense canopy with poor air circulation",
+      "High nitrogen levels and close planting"
+    ],
+    "precautions": [
+      "Avoid excessive nitrogen; apply potassium in split doses",
+      "Space hills at recommended distance (e.g., 20 x 15 cm)",
+      "Keep field bunds weed-free"
+    ],
+    "management": [
+      "Cultural: Practice crop rotation and clear stubble post-harvest",
+      "Monitoring: Check upper canopy leaves after prolonged rainy spells",
+      "Expert Consultation: Contact local KVK agronomist if scald bands advance to flag leaves"
+    ]
+  },
+  "Narrow Brown Spot": {
+    "name": "Narrow Brown Spot",
+    "description": "Fungal leaf disease producing short, narrow, linear reddish-brown lesions parallel to leaf veins.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Short, narrow, linear brown spots (2-10 mm long, 1-1.5 mm wide) parallel to leaf veins",
+      "Uniform light to dark brown spots without gray centers",
+      "Causes premature leaf drying and poor grain filling"
+    ],
+    "risk_factors": [
+      "Nutrient-depleted soils, especially potassium deficiency",
+      "Warm and humid late-season weather during heading",
+      "Susceptible late-maturing varieties"
+    ],
+    "precautions": [
+      "Ensure balanced potassium nutrition according to soil tests",
+      "Avoid delayed sowing in late seasons",
+      "Select resistant cultivars"
+    ],
+    "management": [
+      "Cultural: Remove infected residues after harvesting",
+      "Monitoring: Inspect flag leaf from panicle emergence onwards",
+      "Expert Consultation: Seek guidance if lesions appear before 50% heading"
+    ]
+  },
+  "Neck Blast": {
+    "name": "Neck Blast",
+    "description": "Destructive phase of blast disease where the fungus attacks the neck node supporting the panicle, causing chaffy grains or broken heads.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Brownish-black necrotic lesion at the neck node of the panicle",
+      "Panicle neck becomes brittle and snaps",
+      "Grains remain empty, chaffy, and whitish (whitehead effect)"
+    ],
+    "risk_factors": [
+      "Foliar leaf blast present in the vegetative stage with spore splash during heading",
+      "Intermittent rains and heavy morning dew during panicle emergence",
+      "Over-fertilization with nitrogen near heading"
+    ],
+    "precautions": [
+      "Strictly avoid nitrogen top-dressing after boot leaf emergence",
+      "Maintain proper water depth without excessive inundation",
+      "Adopt community-wide blast-resistant cultivars"
+    ],
+    "management": [
+      "Cultural: Rogue severely infected neck blast panicles",
+      "Monitoring: Inspect panicle emergence daily in humid weather",
+      "Expert Consultation: Report neck blast emergence immediately to agricultural officers"
+    ]
+  },
+  "Rice Hispa": {
+    "name": "Rice Hispa",
+    "description": "Destructive insect pest where spiny beetles scrape upper leaf surfaces and larvae mine between leaf layers.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Parallel white streaks on upper leaf surface scraped by adult beetles",
+      "White blotches or blister mines created by larvae inside leaf tissue",
+      "Damaged leaves wither giving the field a scorched, whitish appearance"
+    ],
+    "risk_factors": [
+      "Heavy continuous rain followed by sunny days during tillering",
+      "Dense grassy weeds on bunds serving as alternate hosts",
+      "High seedling density in nursery beds"
+    ],
+    "precautions": [
+      "Clip seedling leaf tips before transplanting to destroy eggs and grubs",
+      "Maintain clean field bunds and destroy wild host grasses",
+      "Avoid excessive plant density"
+    ],
+    "management": [
+      "Cultural: Sweep nets to collect and eliminate adult beetles",
+      "Monitoring: Count adults and damaged leaves per hill during active tillering",
+      "Expert Consultation: Alert agricultural department if damage exceeds 1 adult per hill"
+    ]
+  },
+  "Sheath Blight": {
+    "name": "Sheath Blight",
+    "description": "Fungal disease characterized by greenish-gray oval lesions on leaf sheaths near the water line.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Oval or irregular water-soaked spots on leaf sheaths just above water level",
+      "Lesions turn grayish-white with irregular brown boundaries",
+      "Infection progresses upward to flag leaves forming banded lesions"
+    ],
+    "risk_factors": [
+      "Warm temperatures (28-32\u00b0C) and high relative humidity (85-100%)",
+      "Heavy canopy density and high nitrogen levels",
+      "Excessive vegetative growth"
+    ],
+    "precautions": [
+      "Optimize seedling spacing for canopy aeration",
+      "Avoid excess nitrogen fertilizer; split into 3-4 doses",
+      "Drain field water intermittently to lower moisture around sheath base"
+    ],
+    "management": [
+      "Cultural: Remove weed hosts like Echinochloa on field bunds",
+      "Field Management: Skim floating sclerotia during final puddling",
+      "Expert Consultation: Check with local agronomist if >20% hills show sheath lesions"
+    ]
+  },
+  "Tungro": {
+    "name": "Tungro",
+    "description": "Viral disease complex transmitted by green leafhoppers leading to severe stunting and orange-yellow discoloration.",
+    "severity": {
+      "Low": "Low",
+      "Moderate": "Moderate",
+      "High": "High",
+      "Unknown": "Unknown"
+    },
+    "symptoms": [
+      "Stunted plants with significantly reduced tillering",
+      "Leaves turn yellow to orange-yellow starting from leaf tips",
+      "Young leaves show mottled or interveinal chlorosis"
+    ],
+    "risk_factors": [
+      "Presence of Green Leafhopper vector populations",
+      "Staggered planting in adjacent fields harboring continuous vectors",
+      "Susceptible varieties planted during high vector migration"
+    ],
+    "precautions": [
+      "Practice synchronous planting within the farming village",
+      "Eradicate volunteer rice plants and wild grass hosts during fallow",
+      "Grow tungro-resistant rice varieties"
+    ],
+    "management": [
+      "Cultural: Light traps to monitor leafhopper vector density",
+      "Monitoring: Scout nursery beds and early tillering for green leafhoppers",
+      "Expert Consultation: Report yellow stunting immediately to agricultural authorities"
+    ]
+  }
+}

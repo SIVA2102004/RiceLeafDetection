@@ -1,0 +1,29 @@
+﻿# Python / Virtual Environment
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+*.py[cod]
+*$py.class
+backend/riceguard.db
+backend/uploads/
+
+# Node / Next.js
+node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Environment and Secrets
+.env
+.env.local
+
+# Large datasets (avoid pushing 30,000 generated test images to GitHub)
+dataset/test_dataset/
+*.tar.gz
+*.zip
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
