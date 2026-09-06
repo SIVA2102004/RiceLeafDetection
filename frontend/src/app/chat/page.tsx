@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -12,12 +12,32 @@ function ChatContent() {
   const searchParams = useSearchParams();
   const analysisId = searchParams.get("analysis_id");
 
+  // Multilingual welcome greetings
+  const getWelcomeMessage = (lang: string) => {
+    switch (lang) {
+      case "te":
+        return "నమస్కారం! నేను మీ రైస్ గార్డ్ రైతు సహాయకుడిని. వరి తెగుళ్లు, లక్షణాలు, సమతుల్య నీటి పారుదల, ఎరువుల యాజమాన్యం లేదా మీ ఇటీవలి పంట పరీక్ష గురించి ఏదైనా అడగండి.";
+      case "hi":
+        return "नमस्ते! मैं आपका राइसगार्ड किसान सहायक हूँ। धान के रोग, लक्षण, संतुलित सिंचाई, खाद प्रबंधन या अपनी हालिया फसल जांच के बारे में कुछ भी पूछें।";
+      case "ta":
+        return "வணக்கம்! நான் உங்கள் ரைஸ்கார்ட் விவசாயி உதவியாளர். நெல் நோய்கள், அறிகுறிகள், பாசன முறைகள் மற்றும் உர மேலாண்மை பற்றி என்னிடம் கேட்கலாம்.";
+      case "kn":
+        return "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ರೈಸ್‌ಗಾರ್ಡ್ ರೈತ ಸಹಾಯಕ. ಭತ್ತದ ರೋಗಗಳು, ಲಕ್ಷಣಗಳು, ನೀರಾವರಿ ಅಥವಾ ಗೊಬ್ಬರ ನಿರ್ವಹಣೆ ಬಗ್ಗೆ ಏನಾದರೂ ಕೇಳಿ.";
+      case "mr":
+        return "नमस्कार! मी आपला राइसगार्ड शेतकरी सहाय्यक आहे. भात पिकावरील रोग, लक्षणे, पाणी व्यवस्थापन किंवा खतांबद्दल काहीही विचारा.";
+      case "gu":
+        return "નમસ્તે! હું તમારો રાઇસગાર્ડ ખેડૂત સહાયક છું. ડાંગરના રોગો, લક્ષણો, સિંચાઈ અથવા ખાતર વ્યવસ્થાપન વિશે મને કંઈપણ પૂછો.";
+      default:
+        return "Namaste! I am your RiceGuard Farmer Assistant. Ask me anything about rice diseases, symptoms, balanced irrigation, fertilizers, or your recent crop scan.";
+    }
+  };
+
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
       role: "assistant",
-      message: "Namaste! I am your RiceGuard Farmer Assistant. Ask me anything about rice diseases, symptoms, balanced irrigation, fertilizers, or your recent crop scan.",
-      language: "en",
+      message: getWelcomeMessage(language),
+      language: language,
       created_at: new Date().toISOString(),
     },
   ]);
@@ -27,11 +47,29 @@ function ChatContent() {
   const [speakingId, setSpeakingId] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Update initial welcome message when language changes if no conversation started
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length === 1 && prev[0].role === "assistant") {
+        return [
+          {
+            id: 1,
+            role: "assistant",
+            message: getWelcomeMessage(language),
+            language: language,
+            created_at: new Date().toISOString(),
+          },
+        ];
+      }
+      return prev;
+    });
+  }, [language]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // If redirected with analysisId, send automated follow-up context query
+  // If redirected with analysisId, send automated follow-up context query in farmer's language
   useEffect(() => {
     if (analysisId) {
       const fetchContext = async () => {
@@ -39,13 +77,23 @@ function ChatContent() {
           const res = await fetch(`${API_BASE_URL}/analysis/${analysisId}`);
           if (res.ok) {
             const data: AnalysisResult = await res.json();
+            const localizedCond = t.diseases?.[data.condition]?.name || data.condition;
+            const localizedSev = t.diseases?.[data.condition]?.severity?.[data.severity] || data.severity;
+            
+            let followUpText = `🌾 I have loaded your recent assessment for **${localizedCond}** (Severity: ${localizedSev}, Confidence: ${Math.round(data.confidence * 100)}%). What questions do you have regarding managing this condition?`;
+            if (language === "te") {
+              followUpText = `🌾 మీ ఇటీవలి **${localizedCond}** విశ్లేషణను లోడ్ చేసాను (తీవ్రత: ${localizedSev}, ఖచ్చితత్వం: ${Math.round(data.confidence * 100)}%). ఈ తెగులు నివారణ లేదా జాగ్రత్తల గురించి మీకేమైనా సందేహాలు ఉన్నాయా?`;
+            } else if (language === "hi") {
+              followUpText = `🌾 मैंने आपकी **${localizedCond}** की हालिया जांच लोड कर ली है (गंभीरता: ${localizedSev}, विश्वास स्कोर: ${Math.round(data.confidence * 100)}%)। इस रोग के प्रबंधन के बारे में आपका क्या प्रश्न है?`;
+            }
+
             setMessages((prev) => [
               ...prev,
               {
                 id: Date.now(),
                 role: "assistant",
-                message: `🌾 I have loaded your recent assessment for **${data.condition}** (Severity: ${data.severity}, Confidence: ${Math.round(data.confidence * 100)}%). What questions do you have regarding managing this condition?`,
-                language: "en",
+                message: followUpText,
+                language: language,
                 created_at: new Date().toISOString(),
               },
             ]);
@@ -56,7 +104,7 @@ function ChatContent() {
       };
       fetchContext();
     }
-  }, [analysisId]);
+  }, [analysisId, language]);
 
   const handleSend = async (textToSend?: string) => {
     const query = textToSend || input;
@@ -75,6 +123,28 @@ function ChatContent() {
     setLoading(true);
 
     try {
+      // Direct prompt answering via localized catalog if regional language
+      let localAnswer: string | null = null;
+      const lowerQ = query.toLowerCase();
+
+      // Check disease match in active local language catalog
+      for (const [key, dInfo] of Object.entries(t.diseases || {})) {
+        if (
+          lowerQ.includes(dInfo.name.toLowerCase()) || 
+          lowerQ.includes(key.toLowerCase()) ||
+          lowerQ.includes("లక్షణాలు") ||
+          lowerQ.includes("నివారణ") ||
+          lowerQ.includes("మందు") ||
+          lowerQ.includes("లక్షణ") ||
+          lowerQ.includes("ఎరువులు")
+        ) {
+          if (lowerQ.includes(dInfo.name.toLowerCase()) || lowerQ.includes(key.toLowerCase())) {
+            localAnswer = `🌾 **${dInfo.name}**\n\n${dInfo.description}\n\n**లక్షణాలు (Symptoms):**\n${dInfo.symptoms.map((s) => `• ${s}`).join("\n")}\n\n**తీసుకోవాల్సిన జాగ్రత్తలు (Precautions):**\n${dInfo.precautions.map((p) => `• ${p}`).join("\n")}\n\n**యాజమాన్య పద్ధతులు (Management):**\n${dInfo.management.map((m) => `• ${m}`).join("\n")}\n\n⚠️ *సలహా: తీవ్రమైన పరిస్థితుల్లో మీ సమీప వ్యవసాయ విస్తరణ అధికారిని (AEO) సంప్రదించండి.*`;
+            break;
+          }
+        }
+      }
+
       const res = await fetch(`${API_BASE_URL}/chat/message`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -87,7 +157,22 @@ function ChatContent() {
 
       if (res.ok) {
         const reply: ChatMessage = await res.json();
+        // If query was in regional language and matched local knowledge, enhance response
+        if (language !== "en" && localAnswer) {
+          reply.message = localAnswer;
+        }
         setMessages((prev) => [...prev, reply]);
+      } else if (localAnswer) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            role: "assistant",
+            message: localAnswer!,
+            language: language,
+            created_at: new Date().toISOString(),
+          },
+        ]);
       }
     } catch (e) {
       setMessages((prev) => [
@@ -95,8 +180,12 @@ function ChatContent() {
         {
           id: Date.now(),
           role: "assistant",
-          message: "Sorry, I am having trouble connecting to the knowledge server. Please check your internet connection.",
-          language: "en",
+          message: language === "te" 
+            ? "క్షమించండి, సర్వర్ అనుసంధానంలో సమస్య ఏర్పడింది. దయచేసి ఇంటర్నెట్ కనెక్షన్ తనిఖీ చేయండి."
+            : language === "hi"
+            ? "क्षमा करें, सर्वर से जुड़ने में समस्या आ रही है। कृपया अपना इंटरनेट कनेक्शन जांचें।"
+            : "Sorry, I am having trouble connecting to the knowledge server. Please check your internet connection.",
+          language: language,
           created_at: new Date().toISOString(),
         },
       ]);
@@ -160,6 +249,17 @@ function ChatContent() {
     window.speechSynthesis.cancel();
     const cleanText = text.replace(/[*#•]/g, "");
     const utterance = new SpeechSynthesisUtterance(cleanText);
+
+    const langMap: Record<string, string> = {
+      en: "en-IN",
+      hi: "hi-IN",
+      te: "te-IN",
+      ta: "ta-IN",
+      kn: "kn-IN",
+      mr: "mr-IN",
+      gu: "gu-IN",
+    };
+    utterance.lang = langMap[language] || "en-IN";
 
     utterance.onend = () => setSpeakingId(null);
     utterance.onerror = () => setSpeakingId(null);
@@ -272,7 +372,15 @@ function ChatContent() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Ask about rice blast, brown spots, fertilizers, watering..."
+          placeholder={
+            language === "te"
+              ? "వరి తెగుళ్లు, మచ్చలు, ఎరువులు లేదా నీటి యాజమాన్యం గురించి అడగండి..."
+              : language === "hi"
+              ? "धान के रोग, धब्बे, खाद या पानी के प्रबंधन के बारे में पूछें..."
+              : language === "ta"
+              ? "நெல் நோய்கள், அறிகுறிகள் அல்லது உரங்கள் பற்றி கேளுங்கள்..."
+              : "Ask about rice blast, brown spots, fertilizers, watering..."
+          }
           className="flex-1 bg-stone-100 border border-stone-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-stone-800 focus:outline-none focus:border-emerald-600"
         />
 
