@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -47,14 +47,43 @@ export default function LoginPage() {
   return (
     <div className="max-w-md mx-auto my-8 bg-white p-8 rounded-3xl shadow-sm border border-stone-200 space-y-6">
       <div className="text-center space-y-1">
-        <h1 className="text-2xl font-bold text-stone-900">Farmer Login</h1>
-        <p className="text-xs text-stone-500">Access your fields, scan records, and AI recommendations</p>
+        <h1 className="text-2xl font-bold text-stone-900">Account Login</h1>
+        <p className="text-xs text-stone-500">Access your fields, scan records, and AI recommendations securely</p>
       </div>
 
-      <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-800 space-y-1">
-        <p className="font-semibold">Demo Credentials:</p>
-        <p>Farmer: Phone: <code className="font-mono">9123456780</code> | Pass: <code className="font-mono">Farmer@12345</code></p>
-        <p>Admin: Phone: <code className="font-mono">9876543210</code> | Pass: <code className="font-mono">Admin@12345</code></p>
+      <div className="p-3.5 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200/80 text-xs text-emerald-900 space-y-2 shadow-xs">
+        <div className="flex items-center justify-between font-semibold">
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Quick Test Accounts (Bcrypt Secured):
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-2 pt-1">
+          <button
+            type="button"
+            onClick={() => {
+              setIdentifier("9123456780");
+              setPassword("Farmer@12345");
+            }}
+            className="text-left p-2 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-300 transition text-[11px] shadow-2xs"
+          >
+            <div className="font-semibold text-emerald-800">🌾 Farmer Demo</div>
+            <div className="text-stone-500 font-mono text-[10px]">9123456780</div>
+            <div className="text-stone-400 font-mono text-[9px]">Pass: Farmer@12345</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setIdentifier("9876543210");
+              setPassword("Admin@12345");
+            }}
+            className="text-left p-2 rounded-xl bg-white hover:bg-amber-50 border border-amber-300 transition text-[11px] shadow-2xs"
+          >
+            <div className="font-semibold text-amber-900">🛡️ Admin Officer</div>
+            <div className="text-stone-500 font-mono text-[10px]">9876543210</div>
+            <div className="text-stone-400 font-mono text-[9px]">Pass: Admin@12345</div>
+          </button>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 text-xs">

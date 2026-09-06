@@ -1,4 +1,4 @@
-﻿from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List
 from datetime import datetime
 from app.models.all_models import UserRole, SeverityLevel, ReviewStatus
@@ -18,6 +18,10 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     identifier: str  # phone or email
     password: str
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
 
 class UserResponse(BaseModel):
     id: int

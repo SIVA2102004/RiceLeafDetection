@@ -1,10 +1,10 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
 from app.db.session import get_db
 from app.models.all_models import User, UserRole
-from app.schemas.all_schemas import UserCreate, UserLogin, UserResponse, Token
+from app.schemas.all_schemas import UserCreate, UserLogin, UserResponse, Token, ChangePasswordRequest
 from app.core.security import verify_password, get_password_hash, create_access_token
 from app.core.config import settings
 
@@ -96,3 +96,24 @@ def login(login_data: UserLogin, db: Session = Depends(get_db)):
 @router.get("/me", response_model=UserResponse)
 def get_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+@router.post("/change-password")
+def change_password(
+    req: ChangePasswordRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if not verify_password(req.current_password, current_user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Current password is incorrect."
+        )
+    if len(req.new_password) < 6:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New password must be at least 6 characters."
+        )
+    
+    current_user.password_hash = get_password_hash(req.new_password)
+    db.commit()
+    return {"message": "Password changed successfully."}

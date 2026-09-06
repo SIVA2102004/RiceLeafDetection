@@ -1,4 +1,4 @@
-﻿import json
+import json
 from datetime import datetime
 from sqlalchemy.orm import Session
 from app.models.all_models import Disease, User, UserRole, AIModelMeta, ReviewStatus
@@ -324,14 +324,15 @@ def seed_database(db: Session):
             for key, val in d_data.items():
                 setattr(existing, key, val)
     
-    # Create demo admin and demo farmer if not present
+    # Create demo admin and demo farmer if not present, or refresh their password hashes safely
     admin = db.query(User).filter(User.phone == "9876543210").first()
+    admin_pwd_hash = get_password_hash("Admin@12345")
     if not admin:
         admin_user = User(
             name="Dr. Ramanathan (Agri Officer)",
             phone="9876543210",
             email="admin@riceguard.org",
-            password_hash=get_password_hash("Admin@12345"),
+            password_hash=admin_pwd_hash,
             role=UserRole.ADMIN,
             language="en",
             village="Mandya",
@@ -339,14 +340,20 @@ def seed_database(db: Session):
             state="Karnataka"
         )
         db.add(admin_user)
+    else:
+        # Update existing admin password hash and role ensuring safe sync
+        admin.password_hash = admin_pwd_hash
+        admin.role = UserRole.ADMIN
+        admin.email = "admin@riceguard.org"
         
     farmer = db.query(User).filter(User.phone == "9123456780").first()
+    farmer_pwd_hash = get_password_hash("Farmer@12345")
     if not farmer:
         farmer_user = User(
             name="Ramesh Patel",
             phone="9123456780",
             email="ramesh@riceguard.org",
-            password_hash=get_password_hash("Farmer@12345"),
+            password_hash=farmer_pwd_hash,
             role=UserRole.FARMER,
             language="en",
             village="Anand",
@@ -354,6 +361,11 @@ def seed_database(db: Session):
             state="Gujarat"
         )
         db.add(farmer_user)
+    else:
+        # Update existing farmer password hash ensuring safe sync
+        farmer.password_hash = farmer_pwd_hash
+        farmer.role = UserRole.FARMER
+        farmer.email = "ramesh@riceguard.org"
 
     # Seed AI Model Meta
     model = db.query(AIModelMeta).filter(AIModelMeta.version == "rice-disease-v1").first()
