@@ -1,5 +1,7 @@
-﻿# Python / Virtual Environment
+# Python / Virtual Environment
 backend/venv/
+backend/.venv/
+.venv/
 backend/__pycache__/
 backend/**/__pycache__/
 *.py[cod]
