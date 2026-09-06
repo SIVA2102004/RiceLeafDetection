@@ -268,6 +268,68 @@ function ChatContent() {
     window.speechSynthesis.speak(utterance);
   };
 
+  // Multilingual UI strings for Chatbot
+  const chatUiTexts = {
+    en: {
+      title: "RiceGuard Farmer Assistant",
+      subtitle: "Verified Agricultural Knowledge & Safe Guidance",
+      knowledgeService: "RiceGuard Knowledge Service",
+      stopVoice: "Stop Voice",
+      activeContext: "Active Diagnosis Context",
+      loading: "Consulting agricultural knowledge base...",
+    },
+    te: {
+      title: "రైస్ గార్డ్ రైతు సహాయకుడు",
+      subtitle: "ధృవీకరించిన వ్యవసాయ సమాచారం & రైతు రక్షణ సలహాలు",
+      knowledgeService: "రైస్ గార్డ్ నాలెడ్జ్ సర్వీస్",
+      stopVoice: "వాయిస్ ఆపు",
+      activeContext: "పరీక్ష ఫలితం సంఖ్య",
+      loading: "వ్యవసాయ సమాచార కేంద్రాన్ని సంప్రదిస్తోంది...",
+    },
+    hi: {
+      title: "राइसगार्ड किसान सहायक",
+      subtitle: "सत्यापित कृषि ज्ञान और सुरक्षित मार्गदर्शन",
+      knowledgeService: "राइसगार्ड ज्ञान सेवा",
+      stopVoice: "आवाज़ रोकें",
+      activeContext: "सक्रिय निदान संदर्भ",
+      loading: "कृषि ज्ञान केंद्र से परामर्श लिया जा रहा है...",
+    },
+    ta: {
+      title: "ரைஸ்கார்ட் விவசாயி உதவியாளர்",
+      subtitle: "சரிபார்க்கப்பட்ட விவசாய அறிவு & வழிகாட்டுதல்",
+      knowledgeService: "ரைஸ்கார்ட் சேவை",
+      stopVoice: "குரலை நிறுத்து",
+      activeContext: "செயலில் உள்ள ஆய்வு",
+      loading: "தகவல்களைத் தேடுகிறது...",
+    },
+    kn: {
+      title: "ರೈಸ್‌ಗಾರ್ಡ್ ರೈತ ಸಹಾಯಕ",
+      subtitle: "ದೃಢೀಕರಿಸಿದ ಕೃಷಿ ಮಾಹಿತಿ ಮತ್ತು ರಕ್ಷಣೆ",
+      knowledgeService: "ರೈಸ್‌ಗಾರ್ಡ್ ಸೇವೆ",
+      stopVoice: "ಧ್ವನಿ ನಿಲ್ಲಿಸಿ",
+      activeContext: "ಪರೀಕ್ಷಾ ವಿವರ",
+      loading: "ಕೃಷಿ ಜ್ಞಾನ ತಾಣದಿಂದ ಮಾಹಿತಿ ಪಡೆಯುತ್ತಿದೆ...",
+    },
+    mr: {
+      title: "राइसगार्ड शेतकरी सहाय्यक",
+      subtitle: "सत्यापित कृषी माहिती आणि सुरक्षित मार्गदर्शन",
+      knowledgeService: "राइसगार्ड सेवा",
+      stopVoice: "आवाज थांबवा",
+      activeContext: "तपासणी तपशील",
+      loading: "कृषी माहिती केंद्राशी संपर्क साधत आहे...",
+    },
+    gu: {
+      title: "રાઇસગાર્ડ ખેડૂત સહાયક",
+      subtitle: "વિશ્વસનીય કૃષિ માર્ગદર્શન અને સલાહ",
+      knowledgeService: "રાઇસગાર્ડ સેવા",
+      stopVoice: "અવાજ બંધ કરો",
+      activeContext: "ચકાસણી સંદર્ભ",
+      loading: "માહિતી મેળવી રહ્યું છે...",
+    },
+  };
+
+  const ui = chatUiTexts[language] || chatUiTexts.en;
+
   return (
     <div className="max-w-3xl mx-auto h-[calc(100vh-140px)] flex flex-col bg-white rounded-3xl shadow-sm border border-stone-200 overflow-hidden">
       {/* Chat header */}
@@ -278,16 +340,16 @@ function ChatContent() {
           </div>
           <div>
             <h2 className="font-bold text-base flex items-center gap-1.5">
-              <span>RiceGuard Farmer Assistant</span>
+              <span>{ui.title}</span>
               <Sparkles className="w-4 h-4 text-amber-300" />
             </h2>
-            <p className="text-xs text-emerald-200">Verified Agricultural Knowledge & Safe Guidance</p>
+            <p className="text-xs text-emerald-200">{ui.subtitle}</p>
           </div>
         </div>
 
         {analysisId && (
           <span className="text-[10px] bg-emerald-900/80 border border-emerald-600 px-2.5 py-1 rounded-full text-amber-300 font-medium">
-            Active Diagnosis Context #{analysisId}
+            {ui.activeContext} #{analysisId}
           </span>
         )}
       </div>
@@ -316,7 +378,7 @@ function ChatContent() {
 
               {msg.role === "assistant" && (
                 <div className="mt-3 pt-2 border-t border-stone-100 flex items-center justify-between text-[10px] text-stone-400">
-                  <span>RiceGuard Knowledge Service</span>
+                  <span>{ui.knowledgeService}</span>
                   <button
                     onClick={() => speakText(msg.id, msg.message)}
                     className="flex items-center gap-1 text-emerald-700 hover:text-emerald-800 font-semibold p-1 rounded"
@@ -324,7 +386,7 @@ function ChatContent() {
                     {speakingId === msg.id ? (
                       <>
                         <VolumeX className="w-3.5 h-3.5 text-rose-600" />
-                        <span className="text-rose-600">Stop Voice</span>
+                        <span className="text-rose-600">{ui.stopVoice}</span>
                       </>
                     ) : (
                       <>
@@ -347,7 +409,7 @@ function ChatContent() {
         {loading && (
           <div className="flex items-center gap-2 text-stone-500 text-xs pl-11">
             <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-600" />
-            <span>Consulting agricultural knowledge base...</span>
+            <span>{ui.loading}</span>
           </div>
         )}
         <div ref={messagesEndRef} />
