@@ -200,13 +200,24 @@ export default function AnalyzePage() {
 
             {/* Metrics grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-              <div className="bg-stone-50 p-3.5 rounded-xl border border-stone-100">
+              <div className={`p-3.5 rounded-xl border ${
+                result.severity === "High" 
+                  ? "bg-rose-50 border-rose-200" 
+                  : result.severity === "Moderate" 
+                  ? "bg-amber-50 border-amber-200" 
+                  : "bg-emerald-50 border-emerald-200"
+              }`}>
                 <p className="text-xs text-stone-500">{t.estimatedSeverity}</p>
-                <p className={`font-semibold text-base mt-0.5 ${
-                  result.severity === "High" ? "text-rose-600" : result.severity === "Moderate" ? "text-amber-600" : "text-emerald-700"
-                }`}>
-                  {displaySeverity}
-                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className={`w-3 h-3 rounded-full animate-pulse ${
+                    result.severity === "High" ? "bg-rose-600" : result.severity === "Moderate" ? "bg-amber-500" : "bg-emerald-600"
+                  }`} />
+                  <p className={`font-bold text-base ${
+                    result.severity === "High" ? "text-rose-700" : result.severity === "Moderate" ? "text-amber-700" : "text-emerald-800"
+                  }`}>
+                    {displaySeverity}
+                  </p>
+                </div>
               </div>
               <div className="bg-stone-50 p-3.5 rounded-xl border border-stone-100">
                 <p className="text-xs text-stone-500">{t.affectedArea}</p>
@@ -218,6 +229,54 @@ export default function AnalyzePage() {
                 <p className="text-xs text-stone-500">{t.modelPipeline}</p>
                 <p className="font-semibold text-stone-700 text-xs mt-1 truncate">
                   {result.model_version}
+                </p>
+              </div>
+            </div>
+
+            {/* Severity Action & Farmer Advisory Panel */}
+            <div className={`rounded-xl p-4 border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs ${
+              result.severity === "High"
+                ? "bg-rose-50/70 border-rose-200 text-rose-950"
+                : result.severity === "Moderate"
+                ? "bg-amber-50/70 border-amber-200 text-amber-950"
+                : "bg-emerald-50/70 border-emerald-200 text-emerald-950"
+            }`}>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className={`px-2 py-0.5 rounded text-[11px] font-bold uppercase ${
+                    result.severity === "High"
+                      ? "bg-rose-600 text-white"
+                      : result.severity === "Moderate"
+                      ? "bg-amber-500 text-white"
+                      : "bg-emerald-600 text-white"
+                  }`}>
+                    {result.severity === "High" ? "Critical / Emergency" : result.severity === "Moderate" ? "Spreading / Active" : "Mild / Early Stage"}
+                  </span>
+                  <span className="font-semibold text-stone-900">What It Means for the Farmer:</span>
+                </div>
+                <p className="text-xs text-stone-700 leading-relaxed">
+                  {result.severity === "High"
+                    ? "Severe infection with significant necrosis/wilting. Immediate yield loss risk if untreated."
+                    : result.severity === "Moderate"
+                    ? "Disease is actively multiplying across foliage. Prompt intervention will prevent field-wide breakout."
+                    : "Low initial trace symptoms or clean healthy leaves. Crop vigor is currently safeguarded."}
+                </p>
+              </div>
+
+              <div className={`sm:min-w-[240px] p-2.5 rounded-lg border text-xs ${
+                result.severity === "High"
+                  ? "bg-white border-rose-300 text-rose-900"
+                  : result.severity === "Moderate"
+                  ? "bg-white border-amber-300 text-amber-900"
+                  : "bg-white border-emerald-300 text-emerald-900"
+              }`}>
+                <strong className="block font-bold text-[11px] uppercase tracking-wide mb-0.5">Immediate Action Needed:</strong>
+                <p className="text-[11px] leading-tight">
+                  {result.severity === "High"
+                    ? "Stop nitrogen fertilizers immediately. Apply curative spray and report to local Krishi Vigyan Kendra / Agri Officer."
+                    : result.severity === "Moderate"
+                    ? "Apply recommended preventive fungicide or bactericide spray and monitor plot every 48 hours."
+                    : "Maintain routine field scouting, clean irrigation channels, and practice balanced N-P-K nutrient application."}
                 </p>
               </div>
             </div>
