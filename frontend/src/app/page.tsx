@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -12,19 +12,52 @@ export default function LandingPage() {
   const [diseases, setDiseases] = useState<DiseaseInfo[]>([]);
 
   useEffect(() => {
+    // Generate fallback profiles from the active language / default dictionary
+    const fallbackList: DiseaseInfo[] = Object.entries(t.diseases || {})
+      .filter(([name]) => name !== "Unknown / Not Rice")
+      .map(([name, val], idx) => ({
+        id: idx + 1,
+        name: val.name || name,
+        description: val.description || "",
+        symptoms: val.symptoms || [],
+        risk_factors: val.risk_factors || [],
+        precautions: val.precautions || [],
+        management: val.management || [],
+        source: "ICAR / IRRI Manual",
+        status: "verified"
+      }));
+
     const fetchDiseases = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/diseases`);
+        const res = await fetch(`${API_BASE_URL}/diseases`, { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
-          setDiseases(data.filter((d: DiseaseInfo) => d.name !== "Unknown / Not Rice"));
+          const filtered = data.filter((d: DiseaseInfo) => d.name !== "Unknown / Not Rice");
+          if (filtered.length > 0) {
+            // Apply language translations to fetched diseases
+            const localized = filtered.map((d: DiseaseInfo) => {
+              const trans = t.diseases?.[d.name];
+              return trans
+                ? {
+                    ...d,
+                    name: trans.name || d.name,
+                    description: trans.description || d.description,
+                  }
+                : d;
+            });
+            setDiseases(localized);
+            return;
+          }
         }
       } catch (e) {
-        console.error(e);
+        console.warn("Backend /diseases fetch failed, using localized knowledge base fallback.", e);
       }
+      // If backend is sleeping (Render cold start) or uncontactable, immediately show the localized verified diseases
+      setDiseases(fallbackList);
     };
+
     fetchDiseases();
-  }, []);
+  }, [t]);
 
   return (
     <div className="space-y-16 pb-12">
